@@ -6,18 +6,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-        if(args.length != 2){
-	        System.out.println("Incorrect usage.");
-	        System.out.println("Usage: ./HuffmanCodec C:/Path/To/File E(ncode)/D(ecode)");
+        String filepath = args[0];
+        filepath = filepath.toLowerCase();
+
+        if(args.length != 1){
+            printErrorMessage();
 	        return;
         }
 
-        if(args[1].toLowerCase() != "e" && args[1].toLowerCase() != "d"){
-            System.out.println("Incorrect usage.");
-            System.out.println("Usage: ./HuffmanCodec C:/Path/To/File E(ncode)/D(ecode)");
-            return;
-        }
+
         HuffmanCodec hc;
+
+        System.out.println(args[0]);
+
         try {
             hc = new HuffmanCodec(args[0]);
         } catch (IOException e) {
@@ -26,10 +27,25 @@ public class Main {
             return;
         }
 
-        if(args[1].toLowerCase() == "e"){
-            hc.encode();
+
+        if(args[0].endsWith(".fhc")){
+            try {
+                hc.decode();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
-            hc.decode();
+            try {
+                hc.encode();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private static void printErrorMessage(){
+        System.out.println("Incorrect usage.");
+        System.out.println("Usage: ./HuffmanCodec C:/Path/To/File");
+        System.out.println("Program automatically detects file type, and encodes or decodes.");
     }
 }
